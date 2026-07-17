@@ -319,6 +319,13 @@ if (( cleanMachine == 1 )); then
     # remove old podman system connections from user space
     rm -rf ~/.config/containers/podman-connections.json*
     rm -rf ~/.config/containers/podman
+    # Detach any stale DMG volumes from previous runs
+    for vol in /Volumes/${appName}*; do
+        if [ -d "$vol" ]; then
+            echo "Detaching stale volume: $vol"
+            hdiutil detach "$vol" 2>/dev/null || true
+        fi
+    done
     echo "Cleanup finished..."
 fi
 
