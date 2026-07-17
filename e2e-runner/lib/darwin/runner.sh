@@ -51,7 +51,7 @@ while [[ $# -gt 0 ]]; do
         --fork) fork="$2"; shift ;;
         --branch) branch="$2"; shift ;;
         --repo) repo="$2"; shift ;;
-        --appName) appName="$2"; shift ;;
+        --appName) appName="${2//\'/}"; shift ;;
         --gitProviderUrl) gitProviderUrl="$2"; shift ;;
         --extRepo) extRepo="$2"; shift ;;
         --extTests) extTests="$2"; shift ;;
