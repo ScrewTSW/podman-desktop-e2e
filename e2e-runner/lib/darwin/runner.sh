@@ -390,7 +390,14 @@ if [ -z "$pdPath" ]; then
             echo "Error: hdiutil attach failed - image not recognised"
             exit 1
         fi
+        echo "DEBUG: Searching /Volumes for appName='${appName}' version='${version}'"
+        echo "DEBUG: Contents of /Volumes:"
+        ls -1 /Volumes/
         pdVolumePath=$(find /Volumes -name "*${appName} ${version}*" -maxdepth 1 | head -1)
+        if [ -z "$pdVolumePath" ]; then
+            echo "DEBUG: find with version failed, trying without version..."
+            pdVolumePath=$(find /Volumes -name "*${appName}*" -maxdepth 1 | head -1)
+        fi
         echo "Volume path: $pdVolumePath"
         sudo cp -R "$pdVolumePath/${appName}.app" /Applications
         hdiutil detach "$pdVolumePath"
