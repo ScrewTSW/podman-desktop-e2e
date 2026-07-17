@@ -402,8 +402,13 @@ else
 fi
 
 if [ -n "$podmanDesktopBinary" ]; then
-    echo "Setting PODMAN_DESKTOP_BINARY to: $podmanDesktopBinary"
-    export PODMAN_DESKTOP_BINARY="$podmanDesktopBinary"
+    case "$appName" in
+        "Red Hat build of Podman Desktop") binaryEnvVar="PODMAN_DESKTOP_BINARY" ;;
+        "Kaiden")                          binaryEnvVar="KAIDEN_BINARY" ;;
+        *)                                 binaryEnvVar="PODMAN_DESKTOP_BINARY" ;;
+    esac
+    echo "Setting $binaryEnvVar to: $podmanDesktopBinary"
+    export "$binaryEnvVar"="$podmanDesktopBinary"
 elif (( extTests == 1 )); then
     echo "Setting PODMAN_DESKTOP_ARGS to: $workingDir/$repo"
     export PODMAN_DESKTOP_ARGS="$workingDir/$repo"
