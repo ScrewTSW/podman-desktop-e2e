@@ -474,13 +474,17 @@ if (( extTests == 1 )); then
     cd "$workingDir/$extRepo"
     echo "Installing dependencies of $extRepo"
     pnpm install --frozen-lockfile 2>&1 | tee -a $testsOutputLog
+    restore_deferred_secrets
     echo "Running the e2e playwright tests using target: $npmTarget"
     pnpm $npmTarget 2>&1 | tee -a $testsOutputLog
+    cleanup_deferred_secrets
     ## Collect results
     collect_logs $extRepo
 else
+    restore_deferred_secrets
     echo "Running the e2e playwright tests using target: $npmTarget, binary path, if any: $podmanDesktopBinary"
     pnpm "$npmTarget" 2>&1 | tee -a $testsOutputLog
+    cleanup_deferred_secrets
     collect_logs "$repo"
 fi
 
