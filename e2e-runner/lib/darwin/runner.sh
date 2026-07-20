@@ -443,6 +443,8 @@ else
     cd "$workingDir/$repo" || exit
     echo "Installing dependencies and storing pnpm run output in: $testsOutputLog"
     pnpm install --frozen-lockfile 2>&1 | tee -a $testsOutputLog
+    echo "Installing Playwright browser..."
+    npx playwright install chromium 2>&1 | tee -a $testsOutputLog
     # extract since tests should be run afte execute scripts
     if [[ "$extTests" -eq 1 ]]; then
         echo "Building $repo for extension e2e tests"
