@@ -442,7 +442,7 @@ else
     clone_checkout "$repo" "$fork" "$branch" "$gitProviderUrl"
     cd "$workingDir/$repo" || exit
     echo "Installing dependencies and storing pnpm run output in: $testsOutputLog"
-    pnpm install --frozen-lockfile 2>&1 | tee -a $testsOutputLog
+    pnpm install 2>&1 | tee -a $testsOutputLog
     # extract since tests should be run afte execute scripts
     if [[ "$extTests" -eq 1 ]]; then
         echo "Building $repo for extension e2e tests"
@@ -473,7 +473,7 @@ if (( extTests == 1 )); then
     pnpm add -D @podman-desktop/tests-playwright@next
     cd "$workingDir/$extRepo"
     echo "Installing dependencies of $extRepo"
-    pnpm install --frozen-lockfile 2>&1 | tee -a $testsOutputLog
+    pnpm install 2>&1 | tee -a $testsOutputLog
     restore_deferred_secrets
     echo "Running the e2e playwright tests using target: $npmTarget"
     pnpm $npmTarget 2>&1 | tee -a $testsOutputLog
