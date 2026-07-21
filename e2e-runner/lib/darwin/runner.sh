@@ -401,10 +401,8 @@ if [ -z "$pdPath" ]; then
         echo "Volume path: $pdVolumePath"
         sudo cp -R "$pdVolumePath/${appName}.app" /Applications
         hdiutil detach "$pdVolumePath"
-        # codesign the extracted app
         appPath="/Applications/${appName}.app"
-        # sudo codesign --force --deep --sign - "$appPath"
-        codesign --verify --deep --verbose=2 "$appPath"
+        sudo xattr -rd com.apple.quarantine "$appPath"
         podmanDesktopBinary="$appPath/Contents/MacOS/${appName}"
     else
         echo "Nor pdUrl or pdPath is set, continue in development mode..."
